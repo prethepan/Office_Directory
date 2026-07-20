@@ -1,0 +1,436 @@
+/* ============================================================
+   Office Directory — stylesheet
+   Palette: ledger/directory-board theme
+   ============================================================ */
+
+:root {
+  --ink: #21262e;
+  --ink-soft: #4b5563;
+  --paper: #f7f5ef;
+  --paper-raised: #ffffff;
+  --rule: #d8d3c4;
+  --navy: #1b2a4a;
+  --navy-soft: #2c3e63;
+  --slate: #4a6fa5;
+  --amber: #b5791a;
+  --amber-bg: #fbf1de;
+  --green: #2f7a4f;
+  --green-bg: #e9f5ee;
+  --red: #a3311f;
+  --red-bg: #fbeae7;
+  --focus-ring: #1857c9;
+
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+  --radius: 4px;
+  --shadow-card: 0 1px 2px rgba(27, 42, 74, 0.08), 0 1px 0 rgba(27, 42, 74, 0.04);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Focus visibility (critical for keyboard users) ---------- */
+a, button, input, select, [tabindex] {
+  outline: none;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible,
+.entry-row:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 20px;
+  z-index: 1000;
+  border-radius: 0 0 var(--radius) 0;
+  font-weight: 600;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* ---------- Header / masthead ---------- */
+.masthead {
+  background: var(--navy);
+  color: #fff;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 4px solid var(--amber);
+}
+
+.masthead h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+.masthead .tagline {
+  font-size: 0.85rem;
+  color: #c7d1e5;
+  margin: 2px 0 0;
+}
+
+/* Tab-style mode switch, evokes physical directory tabs */
+.mode-tabs {
+  display: flex;
+  gap: 2px;
+}
+
+.mode-tab {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 18px;
+  background: var(--navy-soft);
+  color: #dbe3f2;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.mode-tab[aria-current="page"] {
+  background: var(--paper);
+  color: var(--navy);
+  border-bottom-color: var(--amber);
+}
+
+.mode-tab:hover:not([aria-current="page"]) {
+  background: #395079;
+}
+
+/* ---------- Layout ---------- */
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.panel {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.panel h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin: 0 0 16px;
+  color: var(--navy);
+}
+
+/* ---------- Search ---------- */
+.search-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 240px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="password"] {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 10px 12px;
+  border: 1.5px solid var(--rule);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+}
+
+input[type="text"]:focus-visible,
+input[type="tel"]:focus-visible,
+input[type="password"]:focus-visible {
+  border-color: var(--focus-ring);
+}
+
+button {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--navy-soft); }
+
+.btn-secondary {
+  background: #fff;
+  color: var(--navy);
+  border-color: var(--navy);
+}
+.btn-secondary:hover { background: #eef1f7; }
+
+.btn-danger {
+  background: #fff;
+  color: var(--red);
+  border-color: var(--red);
+}
+.btn-danger:hover { background: var(--red-bg); }
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+/* status line, announced via aria-live */
+.results-status {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- Directory table ---------- */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table.directory {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+table.directory caption {
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+table.directory th,
+table.directory td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+table.directory thead th {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  background: #eef1f7;
+  border-bottom: 2px solid var(--navy);
+}
+
+table.directory tbody tr:hover {
+  background: #fbfaf6;
+}
+
+.phone-number {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.phone-number a {
+  color: var(--navy);
+  text-decoration-color: var(--amber);
+  text-decoration-thickness: 2px;
+}
+
+.office-number-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid #e6c98a;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.empty-state {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.empty-state strong {
+  display: block;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+/* ---------- Admin login ---------- */
+.login-wrap {
+  max-width: 420px;
+  margin: 48px auto;
+}
+
+.login-wrap .panel {
+  text-align: left;
+}
+
+.form-error {
+  background: var(--red-bg);
+  color: var(--red);
+  border: 1px solid #e5b6ac;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+.form-success {
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1px solid #a8d6bb;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+/* ---------- Admin entry form ---------- */
+.entry-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.entry-form .field.full { grid-column: 1 / -1; }
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.required-mark { color: var(--red); }
+
+/* ---------- Modal (edit dialog) ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(27, 33, 46, 0.55);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 16px;
+  z-index: 500;
+}
+
+.modal-overlay[hidden] { display: none; }
+
+.modal {
+  background: #fff;
+  border-radius: var(--radius);
+  max-width: 520px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+
+.modal h2 {
+  font-family: var(--font-display);
+  margin-top: 0;
+  color: var(--navy);
+}
+
+/* ---------- Utility ---------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.signed-in-as {
+  font-size: 0.85rem;
+  color: #dbe3f2;
+}
+
+footer.app-footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  padding: 24px;
+}
+
+@media (max-width: 560px) {
+  .masthead { flex-direction: column; align-items: flex-start; }
+  .search-row { flex-direction: column; align-items: stretch; }
+}

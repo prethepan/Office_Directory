@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Office Directory</title>
+<meta name="theme-color" content="#1b2a4a">
+<meta name="description" content="Search office phone numbers, and manage entries in admin mode.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header class="masthead">
+  <div>
+    <h1>Office Directory</h1>
+    <p class="tagline">Find the right office, fast.</p>
+  </div>
+
+  <nav aria-label="Mode">
+    <div class="mode-tabs" role="tablist" aria-label="Directory mode">
+      <button type="button" id="tab-standard" class="mode-tab" role="tab" aria-current="page" aria-controls="view-standard">
+        Search Directory
+      </button>
+      <button type="button" id="tab-admin" class="mode-tab" role="tab" aria-controls="view-admin-login">
+        Admin
+      </button>
+    </div>
+  </nav>
+
+  <div class="top-bar-actions" id="top-bar-actions"></div>
+</header>
+
+<main id="main-content">
+
+  <!-- ============ STANDARD MODE ============ -->
+  <section id="view-standard" aria-labelledby="standard-heading">
+    <h2 id="standard-heading" class="visually-hidden">Search the office directory</h2>
+
+    <div class="panel">
+      <form id="search-form" role="search" onsubmit="return false;">
+        <div class="search-row">
+          <div class="field">
+            <label for="search-input">Search by office name</label>
+            <input type="text" id="search-input" name="search" autocomplete="off"
+                   aria-describedby="search-help" placeholder="e.g. Human Resources">
+            <span class="hint" id="search-help">Type an office name to find its phone number. Press Escape to clear.</span>
+          </div>
+        </div>
+      </form>
+      <p class="results-status" id="search-status" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="panel">
+      <h2>Results</h2>
+      <div class="table-wrap" id="results-table-wrap">
+        <table class="directory">
+          <caption class="visually-hidden">Office directory search results</caption>
+          <thead>
+            <tr>
+              <th scope="col">Office</th>
+              <th scope="col">Phone number</th>
+              <th scope="col">Location</th>
+              <th scope="col">Office number</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="results-empty" hidden>
+        <strong>No matching office found</strong>
+        <p>Try a different office name, or check the spelling.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN LOGIN ============ -->
+  <section id="view-admin-login" hidden aria-labelledby="login-heading">
+    <div class="login-wrap">
+      <div class="panel">
+        <h2 id="login-heading">Admin sign in</h2>
+        <p class="hint">Enter the authorization key to edit or update directory entries.</p>
+        <form id="login-form" novalidate>
+          <div class="field">
+            <label for="login-key">Authorization key</label>
+            <input type="password" id="login-key" name="loginKey" autocomplete="off" required aria-describedby="login-help">
+            <span class="hint" id="login-help">This key is provided by your directory administrator.</span>
+          </div>
+          <p class="form-error" id="login-error" role="alert" hidden></p>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Sign in</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN PANEL ============ -->
+  <section id="view-admin-panel" hidden aria-labelledby="admin-heading">
+    <h2 id="admin-heading" class="visually-hidden">Admin panel</h2>
+
+    <div class="panel">
+      <h2 id="entry-form-title">Add a new office</h2>
+      <form id="entry-form" novalidate>
+        <div class="entry-form">
+          <div class="field">
+            <label for="f-office-name">Office name <span class="required-mark">*</span></label>
+            <input type="text" id="f-office-name" name="officeName" required>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone number <span class="required-mark">*</span></label>
+            <input type="tel" id="f-phone" name="phone" required>
+          </div>
+          <div class="field">
+            <label for="f-office-number">Office number</label>
+            <input type="text" id="f-office-number" name="officeNumber">
+          </div>
+          <div class="field">
+            <label for="f-location">Location / address</label>
+            <input type="text" id="f-location" name="location">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" id="entry-form-submit">Add office</button>
+            <button type="reset" class="btn-secondary" id="entry-form-cancel">Clear</button>
+          </div>
+          <p id="entry-form-message" class="form-success" hidden></p>
+        </div>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2>Directory entries</h2>
+      <div class="field">
+        <label for="admin-search-input">Search entries</label>
+        <input type="text" id="admin-search-input" autocomplete="off" placeholder="Search by name, phone, location, or office number">
+      </div>
+      <p class="results-status" id="admin-status" role="status" aria-live="polite"></p>
+
+      <div class="table-wrap" id="admin-table-wrap">
+        <table class="directory">
+          <caption class="visually-hidden">All directory entries, editable</caption>
+          <thead>
+            <tr>
+              <th scope="col">Office</th>
+              <th scope="col">Phone number</th>
+              <th scope="col">Location</th>
+              <th scope="col">Office number</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-body"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="admin-empty" hidden>
+        <strong>No entries yet</strong>
+        <p>Use the form above to add the first office.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Change authorization key</h2>
+      <form id="change-key-form" novalidate>
+        <div class="entry-form">
+          <div class="field">
+            <label for="change-key-current">Current key</label>
+            <input type="password" id="change-key-current" autocomplete="off" required>
+          </div>
+          <div class="field">
+            <label for="change-key-new">New key</label>
+            <input type="password" id="change-key-new" autocomplete="off" required minlength="6">
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-secondary">Update key</button>
+          </div>
+          <p id="change-key-message" class="form-success" hidden></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ EDIT MODAL ============ -->
+<div class="modal-overlay" id="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h2 id="modal-title">Edit office</h2>
+    <form id="modal-form" novalidate>
+      <div class="entry-form">
+        <div class="field">
+          <label for="m-office-name">Office name <span class="required-mark">*</span></label>
+          <input type="text" id="m-office-name" required>
+        </div>
+        <div class="field">
+          <label for="m-phone">Phone number <span class="required-mark">*</span></label>
+          <input type="tel" id="m-phone" required>
+        </div>
+        <div class="field">
+          <label for="m-office-number">Office number</label>
+          <input type="text" id="m-office-number">
+        </div>
+        <div class="field">
+          <label for="m-location">Location / address</label>
+          <input type="text" id="m-location">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Save changes</button>
+          <button type="button" class="btn-secondary" id="modal-cancel">Cancel</button>
+          <button type="button" class="btn-danger" id="modal-delete">Delete entry</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="app-footer">
+  Office Directory — works offline, data stored on this device.
+</footer>
+
+<script src="app.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("service-worker.js").catch(() => {
+        // Installability still works without this; silently ignore in unsupported contexts.
+      });
+    });
+  }
+</script>
+</body>
+</html>
